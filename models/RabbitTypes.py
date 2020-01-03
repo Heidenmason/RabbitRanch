@@ -1,12 +1,16 @@
-class PizzaTypes():
+class RabbitTypes():
 
-    def __init__(self, typeID, name):  # constructor
+    def __init__(self, typeID, name, ABV):  # constructor
         self.__typeID = typeID
         self.__name = name
+        self.__ABV = ABV
 
     # setters
     def setName(self, name):
         self.__name = name
+
+    def setABV(self, ABV):
+        self.__ABV = ABV
 
     # Getters
     def getTypeID(self):
@@ -14,3 +18,6 @@ class PizzaTypes():
 
     def getName(self):
         return self.__name
+
+    def getABV(self):
+        return self.__ABV

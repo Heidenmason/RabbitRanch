@@ -1,20 +1,34 @@
-from PyQt5 import QtWidgets, uic
-from Controllers import pizzaTypesController as PTC
+from PyQt5 import QtWidgets, uic, QtGui
+from Controllers import rabbitTypesController as RTC
 
 
 class MyWindow(QtWidgets.QMainWindow):
-    listOfPizzas = []
+    listOfRabbit = []
 
     def __init__(self):
         super(MyWindow, self).__init__()
         uic.loadUi('RabbitRanchMain.ui', self)
+        self.setWindowIcon(QtGui.QIcon("images/barn-512.png"))  # Sets Start Bar Icon
+        self.statusbar.showMessage('Ready')
+
         self.init()
 
     def init(self):
-        global listOfPizzas
-        listOfPizzas = PTC.pizzaTypesController.getPizzaTypes()
+        global listOfRabbit
 
-        for x in listOfPizzas:
+        # label to image
+        mypixmap = QtGui.QPixmap('images/image.jpg')
+        self.labelImg.setPixmap(mypixmap)
+        self.labelImg.resize(mypixmap.width(), mypixmap.height())
+        self.labelImg.resize(126, 180)  # portrait
+        # self.labelImg.resize(180,110) #landscape
+        myscaledpixmap = mypixmap.scaled(self.labelImg.size())
+        self.labelImg.setPixmap(myscaledpixmap)
+        # label to image.
+
+        listOfRabbit = RTC.rabbitTypesController.getRabbitTypes()
+
+        for x in listOfRabbit:
             self.cbPizzaTypes.addItem(x.getName())
 
         self.twPizzaToppings.setHorizontalHeaderItem(0, QtWidgets.QTableWidgetItem("Sauce"))
@@ -32,10 +46,10 @@ class MyWindow(QtWidgets.QMainWindow):
     def pizzaSelected(self):
         try:
             cbPizzaIndex = self.cbPizzaTypes.currentIndex()
-            selectedPizza = listOfPizzas[cbPizzaIndex]
+            selectedPizza = listOfRabbit[cbPizzaIndex]
             pizzaTypeID = selectedPizza.getTypeID()
 
-            listOfPizzaToppings = PTC.pizzaTypesController.getPizzaToppings(pizzaTypeID)
+            listOfPizzaToppings = RTC.rabbitTypesController.getPizzaToppings(pizzaTypeID)
 
             self.twPizzaToppings.setRowCount(0)
             for row_number, row_data in enumerate(listOfPizzaToppings):

@@ -6,7 +6,7 @@ class DBConnection():
     @staticmethod
     def getConnection():
         try:
-            conn = sqlite3.connect("rabbitranch.db")
+            conn = sqlite3.connect("rabbitranch (copy).db")
 
             return conn
         except Exception as e:

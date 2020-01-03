@@ -1,22 +1,22 @@
 import DBConnection as DB
-from models import PizzaTypes as PT
+from models import RabbitTypes as PT
 from models import pizzaToppings as PTo
 
 
-class pizzaTypesController():
+class rabbitTypesController():
 
     @staticmethod
-    def getPizzaTypes():
+    def getRabbitTypes():
         try:
-            listOfPizzaTypes = []
+            listOfRabbitTypes = []
 
             conn = DB.DBConnection.getConnection()
             cur = conn.cursor()
-            cur.execute("SELECT * FROM pizzatypes")
+            cur.execute("SELECT * FROM rabbittypes")
             for row in cur:
-                pizzaType = PT.PizzaTypes(row[0], row[1])  # typeID, name
-                listOfPizzaTypes.append(pizzaType)
-            return listOfPizzaTypes
+                rabbitType = PT.RabbitTypes(row[0], row[1], row[2])  # typeID, name, ABV
+                listOfRabbitTypes.append(rabbitType)
+            return listOfRabbitTypes
         except Exception as e:
             print(e)
         finally:
