@@ -1,22 +1,22 @@
-import DBConnection as DB
-from models import RabbitTypes as PT
-from models import pizzaToppings as PTo
+import db_connection as db
+from models import rabbit_types as pt
+from models import pizza_toppings as pto
 
 
-class rabbitTypesController():
+class RabbitTypesController:
 
     @staticmethod
-    def getRabbitTypes():
+    def getrabbittypes():
         try:
-            listOfRabbitTypes = []
+            list_of_rabbit_types = []
 
-            conn = DB.DBConnection.getConnection()
+            conn = db.DBConnection.get_connection()
             cur = conn.cursor()
             cur.execute("SELECT * FROM rabbittypes")
             for row in cur:
-                rabbitType = PT.RabbitTypes(row[0], row[1], row[2])  # typeID, name, ABV
-                listOfRabbitTypes.append(rabbitType)
-            return listOfRabbitTypes
+                rabbit_type = pt.RabbitTypes(row[0], row[1], row[2])  # typeID, name, ABV
+                list_of_rabbit_types.append(rabbit_type)
+            return list_of_rabbit_types
         except Exception as e:
             print(e)
         finally:
@@ -41,19 +41,19 @@ class rabbitTypesController():
     #            conn.close()
 
     @staticmethod
-    def getPizzaToppings(typeID):
+    def getpizzatoppings(type_id):
         try:
-            listOfPizzaToppings = []
+            list_of_pizza_toppings = []
 
-            conn = DB.DBConnection.getConnection()
+            conn = db.DBConnection.get_connection()
             cur = conn.cursor()
-            typeIDSecure = typeID
-            cur.execute("SELECT * FROM PizzaToppings WHERE typeID = ?", (typeIDSecure,))
+            type_id_secure = type_id
+            cur.execute("SELECT * FROM PizzaToppings WHERE typeID = ?", (type_id_secure,))
             for row in cur:
-                pizzaToppings = PTo.PizzaToppings(row[0], row[1], row[2], row[3], row[4], row[5])
+                pizza_toppings = pto.PizzaToppings(row[0], row[1], row[2], row[3], row[4], row[5])
                 # pizzaID, typeID, sauce, meat, cheese, veggies
-                listOfPizzaToppings.append(pizzaToppings)
-            return listOfPizzaToppings
+                list_of_pizza_toppings.append(pizza_toppings)
+            return list_of_pizza_toppings
         except Exception as e:
             print(e)
         finally:
