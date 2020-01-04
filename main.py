@@ -1,11 +1,9 @@
-from typing import List, Any
-
 from PyQt5 import QtWidgets, uic, QtGui
 from Controllers import rabbit_types_controller as rtc
 
 
 class MyWindow(QtWidgets.QMainWindow):
-    LIST_OF_RABBITS: List[Any] = []
+    LIST_OF_RABBITS = []
 
     def __init__(self):
         super(MyWindow, self).__init__()
