@@ -1,9 +1,9 @@
 from PyQt5 import QtWidgets, uic, QtGui
-from Controllers import rabbitTypesController as RTC
+from Controllers import rabbit_types_controller as rtc
 
 
 class MyWindow(QtWidgets.QMainWindow):
-    listOfRabbit = []
+    LIST_OF_RABBITS = []
 
     def __init__(self):
         super(MyWindow, self).__init__()
@@ -14,7 +14,7 @@ class MyWindow(QtWidgets.QMainWindow):
         self.init()
 
     def init(self):
-        global listOfRabbit
+        global LIST_OF_RABBITS
 
         # label to image
         mypixmap = QtGui.QPixmap('images/image.jpg')
@@ -26,10 +26,10 @@ class MyWindow(QtWidgets.QMainWindow):
         self.labelImg.setPixmap(myscaledpixmap)
         # label to image.
 
-        listOfRabbit = RTC.rabbitTypesController.getRabbitTypes()
+        LIST_OF_RABBITS = rtc.RabbitTypesController.getrabbittypes()
 
-        for x in listOfRabbit:
-            self.cbPizzaTypes.addItem(x.getName())
+        for each in LIST_OF_RABBITS:
+            self.cbPizzaTypes.addItem(each.get_name())
 
         self.twPizzaToppings.setHorizontalHeaderItem(0, QtWidgets.QTableWidgetItem("Sauce"))
         self.twPizzaToppings.setHorizontalHeaderItem(1, QtWidgets.QTableWidgetItem("Meat"))
@@ -38,26 +38,30 @@ class MyWindow(QtWidgets.QMainWindow):
 
         self.lbOrdered.hide()
 
-        self.cbPizzaTypes.currentIndexChanged.connect(self.pizzaSelected)
+        self.cbPizzaTypes.currentIndexChanged.connect(self.pizza_selected)
         self.btnOrder.clicked.connect(self.order)
 
-        self.pizzaSelected()
+        self.pizza_selected()
 
-    def pizzaSelected(self):
+    def pizza_selected(self):
         try:
-            cbPizzaIndex = self.cbPizzaTypes.currentIndex()
-            selectedPizza = listOfRabbit[cbPizzaIndex]
-            pizzaTypeID = selectedPizza.getTypeID()
+            cb_pizza_index = self.cbPizzaTypes.currentIndex()
+            selected_pizza = LIST_OF_RABBITS[cb_pizza_index]
+            pizza_type_id = selected_pizza.get_type_id_type()
 
-            listOfPizzaToppings = RTC.rabbitTypesController.getPizzaToppings(pizzaTypeID)
+            list_of_pizza_toppings = rtc.RabbitTypesController.getpizzatoppings(pizza_type_id)
 
             self.twPizzaToppings.setRowCount(0)
-            for row_number, row_data in enumerate(listOfPizzaToppings):
+            for row_number, row_data in enumerate(list_of_pizza_toppings):
                 self.twPizzaToppings.insertRow(row_number)
-                self.twPizzaToppings.setItem(row_number, 0, QtWidgets.QTableWidgetItem(row_data.getSauce()))
-                self.twPizzaToppings.setItem(row_number, 1, QtWidgets.QTableWidgetItem(row_data.getMeat()))
-                self.twPizzaToppings.setItem(row_number, 2, QtWidgets.QTableWidgetItem(row_data.getCheese()))
-                self.twPizzaToppings.setItem(row_number, 3, QtWidgets.QTableWidgetItem(row_data.getVeggies()))
+                self.twPizzaToppings.setItem(row_number, 0,
+                                             QtWidgets.QTableWidgetItem(row_data.get_sauce()))
+                self.twPizzaToppings.setItem(row_number, 1,
+                                             QtWidgets.QTableWidgetItem(row_data.get_meat()))
+                self.twPizzaToppings.setItem(row_number, 2,
+                                             QtWidgets.QTableWidgetItem(row_data.get_cheese()))
+                self.twPizzaToppings.setItem(row_number, 3,
+                                             QtWidgets.QTableWidgetItem(row_data.get_veggies()))
         except Exception as e:
             print(e)
 
